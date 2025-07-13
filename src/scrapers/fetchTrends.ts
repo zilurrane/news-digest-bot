@@ -56,17 +56,18 @@ export async function fetchTrendingTopics(): Promise<TrendData[]> {
     }
 
     // Extract and process topic names
-    const selectedTopics = trends.slice(0, 1);//TRENDS_CONFIG.maxTopics);
+    let selectedTopics = trends.slice(0, 1);//TRENDS_CONFIG.maxTopics);
 
     for (let topicIndex = 0; topicIndex < selectedTopics.length; topicIndex++) {
       const topic = selectedTopics[topicIndex];
       const articlesResponse = await GoogleTrendsApi.trendingArticles({
-        articleCount: 5,
+        articleCount: 20,
         articleKeys: topic.articleKeys,
       });
       const articles = articlesResponse.data || [];
-      console.log(`[X Digest Bot] Articles for topic ${topicIndex + 1}:`, articles);
-      console.log(articles);
+      const articleTitles = articles.map((article: any) => article.title); // Remove HTML tags from titles
+      console.log(`[X Digest Bot] Cleaned article titles for topic ${topicIndex + 1}:`);
+      selectedTopics[topicIndex].articleTittles = articleTitles;
     }
 
     console.log(`[X Digest Bot] Found ${selectedTopics.length} trending topics`);
