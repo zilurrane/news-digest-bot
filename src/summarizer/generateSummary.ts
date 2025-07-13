@@ -1,9 +1,8 @@
 // src/summarizer/generateSummary.ts
-import { OpenAI } from "langchain/llms/openai";
-import { PromptTemplate } from "langchain/prompts";
-import { LLMChain } from "langchain/chains";
+import { ChatOpenAI } from "@langchain/openai";
+import { PromptTemplate } from "@langchain/core/prompts";
 
-const model = new OpenAI({
+const model = new ChatOpenAI({
   modelName: "gpt-3.5-turbo",
   temperature: 0.3,
 });
@@ -19,9 +18,8 @@ Summary:
 `
 });
 
-const chain = new LLMChain({ llm: model, prompt });
-
 export async function generateSummary(tweets: string): Promise<string> {
-  const result = await chain.call({ tweets });
-  return result.text;
+  const formattedPrompt = await prompt.format({ tweets });
+  const result = await model.invoke(formattedPrompt);
+  return result.content as string;
 }

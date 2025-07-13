@@ -1,9 +1,9 @@
 // src/scheduler.ts
 import cron from "node-cron";
-import { fetchTrendingTopics } from "./scrapers/fetchTrends";
-import { scrapeTweetsForTopic } from "./scrapers/scrapeTweets";
-import { generateSummary } from "./summarizer/generateSummary";
-import { sendDigestEmail } from "./email/sendDigestEmail";
+import { fetchTrendingTopics } from "./scrapers/fetchTrends.js";
+import { scrapeTweetsForTopic } from "./scrapers/scrapeTweets.js";
+import { generateSummary } from "./summarizer/generateSummary.js";
+import { sendDigestEmail } from "./email/sendDigestEmail.js";
 
 async function runDigestJob(): Promise<void> {
   console.log("[X Digest Bot] Running digest job...");
