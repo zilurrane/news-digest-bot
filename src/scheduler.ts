@@ -14,7 +14,7 @@ async function runDigestJob(): Promise<void> {
   let fullDigest = "";
 
   for (const topic of topics) {
-    const tweets = await scrapeTweetsForTopic(topic);
+    const tweets = await scrapeTweetsForTopic("topic");
     const summary = await generateSummary(tweets);
     fullDigest += `📌 ${topic}\n${summary}\n\n`;
   }
