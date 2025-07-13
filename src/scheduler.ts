@@ -12,7 +12,8 @@ async function runDigestJob(): Promise<void> {
   for (const topicWithArticleTitles of topicsWithArticleTitles) {
     const articleTitles = (topicWithArticleTitles.articleTitles || []).join("\n");
     const summary = await generateSummary(articleTitles);
-    topicWithArticleTitles.summary = JSON.parse(summary);
+    const summaryContent = JSON.parse(summary);
+    topicWithArticleTitles.summary = summaryContent?.Summary || summaryContent?.summary || summaryContent;
   }
   // console.log(topicsWithArticleTitles);
   await sendDigestEmail(topicsWithArticleTitles);

@@ -10,7 +10,7 @@ const model = new ChatOpenAI({
 const prompt = new PromptTemplate({
   inputVariables: ["content"],
   template: `
-Summarize the following content in exactly 10 lines. Each line should be a clear, standalone sentence capturing one key point. Focus on names, events, and important details. Use neutral and respectful tone.
+Summarize the following content in exactly 5 lines. Each line should be a clear, standalone sentence capturing one key point. Focus on names, events, and important details. Use neutral and respectful tone.
 Format as a JSON Array
 Content:
 {content}
