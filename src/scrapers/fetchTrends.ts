@@ -56,7 +56,7 @@ export async function fetchTrendingTopics(): Promise<TrendData[]> {
     }
 
     // Extract and process topic names
-    let selectedTopics = trends.slice(0, 1);//TRENDS_CONFIG.maxTopics);
+    let selectedTopics = trends.slice(0, TRENDS_CONFIG.maxTopics);
 
     for (let topicIndex = 0; topicIndex < selectedTopics.length; topicIndex++) {
       const topic = selectedTopics[topicIndex];
@@ -67,7 +67,7 @@ export async function fetchTrendingTopics(): Promise<TrendData[]> {
       const articles = articlesResponse.data || [];
       const articleTitles = articles.map((article: any) => article.title); // Remove HTML tags from titles
       console.log(`[X Digest Bot] Cleaned article titles for topic ${topicIndex + 1}:`);
-      selectedTopics[topicIndex].articleTittles = articleTitles;
+      selectedTopics[topicIndex].articleTitles = articleTitles;
     }
 
     console.log(`[X Digest Bot] Found ${selectedTopics.length} trending topics`);

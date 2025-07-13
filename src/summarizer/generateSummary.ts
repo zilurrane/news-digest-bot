@@ -8,18 +8,19 @@ const model = new ChatOpenAI({
 });
 
 const prompt = new PromptTemplate({
-  inputVariables: ["tweets"],
+  inputVariables: ["content"],
   template: `
-You are an AI summarizer. Summarize these tweets into a 10-15 line digest:
-
-{tweets}
+Summarize the following content in exactly 10 lines. Each line should be a clear, standalone sentence capturing one key point. Focus on names, events, and important details. Use neutral and respectful tone.
+Format as a JSON Array
+Content:
+{content}
 
 Summary:
 `
 });
 
-export async function generateSummary(tweets: string): Promise<string> {
-  const formattedPrompt = await prompt.format({ tweets });
+export async function generateSummary(content: string): Promise<any> {
+  const formattedPrompt = await prompt.format({ content });
   const result = await model.invoke(formattedPrompt);
-  return result.content as string;
+  return result.content;
 }

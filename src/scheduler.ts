@@ -1,24 +1,21 @@
 // src/scheduler.ts
 import cron from "node-cron";
 import { fetchTrendingTopics } from "./scrapers/fetchTrends";
-import { scrapeTweetsForTopic } from "./scrapers/scrapeTweets";
 import { generateSummary } from "./summarizer/generateSummary";
 import { sendDigestEmail } from "./email/sendDigestEmail";
 
 async function runDigestJob(): Promise<void> {
   console.log("[X Digest Bot] Running digest job...");
 
-  const topics = await fetchTrendingTopics();
-  // console.log(topics);
-  let fullDigest = "";
+  let topicsWithArticleTitles = await fetchTrendingTopics();
 
-  for (const topic of topics) {
-    const tweets = await scrapeTweetsForTopic("topic");
-    // const summary = await generateSummary(tweets);
-    // fullDigest += `📌 ${topic}\n${summary}\n\n`;
+  for (const topicWithArticleTitles of topicsWithArticleTitles) {
+    const articleTitles = (topicWithArticleTitles.articleTitles || []).join("\n");
+    const summary = await generateSummary(articleTitles);
+    topicWithArticleTitles.summary = JSON.parse(summary);
   }
-
-  // await sendDigestEmail(fullDigest);
+  // console.log(topicsWithArticleTitles);
+  await sendDigestEmail(topicsWithArticleTitles);
   // console.log("[X Digest Bot] Email sent successfully.");
 }
 
