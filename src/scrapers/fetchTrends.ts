@@ -26,17 +26,17 @@ const TRENDS_CONFIG = {
 async function fetchGoogleTrends(): Promise<TrendData[]> {
   try {
     console.log('[X Digest Bot] Fetching Google Trends...');
-    
+
     const result: TrendsResponse = await GoogleTrendsApi.dailyTrends(TRENDS_CONFIG);
-    
+
     if (result?.data && Array.isArray(result.data)) {
       console.log(`[X Digest Bot] Raw trends data:`, result.data.length, 'items');
       return result.data;
     }
-    
+
     console.log('[X Digest Bot] No valid trends data found');
     return [];
-    
+
   } catch (error) {
     console.error('[X Digest Bot] Error fetching Google Trends:', error);
     return [];
@@ -47,18 +47,29 @@ async function fetchGoogleTrends(): Promise<TrendData[]> {
 export async function fetchTrendingTopics(): Promise<TrendData[]> {
   try {
     console.log('[X Digest Bot] Starting trending topics fetch...');
-    
+
     const trends = await fetchGoogleTrends();
-    
+
     if (trends.length === 0) {
       console.log('[X Digest Bot] No trending topics found, using fallback data');
       return [];
     }
 
     // Extract and process topic names
-    const selectedTopics = trends.slice(0, TRENDS_CONFIG.maxTopics);
+    const selectedTopics = trends.slice(0, 1);//TRENDS_CONFIG.maxTopics);
 
-    console.log(`[X Digest Bot] Found ${selectedTopics.length} trending topics:`, selectedTopics);
+    for (let topicIndex = 0; topicIndex < selectedTopics.length; topicIndex++) {
+      const topic = selectedTopics[topicIndex];
+      const articlesResponse = await GoogleTrendsApi.trendingArticles({
+        articleCount: 5,
+        articleKeys: topic.articleKeys,
+      });
+      const articles = articlesResponse.data || [];
+      console.log(`[X Digest Bot] Articles for topic ${topicIndex + 1}:`, articles);
+      console.log(articles);
+    }
+
+    console.log(`[X Digest Bot] Found ${selectedTopics.length} trending topics`);
     return selectedTopics;
 
   } catch (error) {

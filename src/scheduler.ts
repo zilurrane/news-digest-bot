@@ -9,18 +9,17 @@ async function runDigestJob(): Promise<void> {
   console.log("[X Digest Bot] Running digest job...");
 
   const topics = await fetchTrendingTopics();
-  console.log(topics);
-  return;
+  // console.log(topics);
   let fullDigest = "";
 
   for (const topic of topics) {
     const tweets = await scrapeTweetsForTopic("topic");
-    const summary = await generateSummary(tweets);
-    fullDigest += `📌 ${topic}\n${summary}\n\n`;
+    // const summary = await generateSummary(tweets);
+    // fullDigest += `📌 ${topic}\n${summary}\n\n`;
   }
 
-  await sendDigestEmail(fullDigest);
-  console.log("[X Digest Bot] Email sent successfully.");
+  // await sendDigestEmail(fullDigest);
+  // console.log("[X Digest Bot] Email sent successfully.");
 }
 
 runDigestJob();
