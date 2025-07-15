@@ -1,5 +1,5 @@
 // src/scheduler.ts
-import cron from "node-cron";
+// import cron from "node-cron";
 import { fetchTrendingTopics } from "./scrapers/fetchTrends";
 import { generateSummary } from "./summarizer/generateSummary";
 import { sendDigestEmail } from "./email/sendDigestEmail";
@@ -23,4 +23,4 @@ async function runDigestJob(): Promise<void> {
 runDigestJob();
 
 // Schedule to run at 7 AM and 7 PM
-cron.schedule("0 7,19 * * *", runDigestJob);
+// cron.schedule("0 7,19 * * *", runDigestJob);
