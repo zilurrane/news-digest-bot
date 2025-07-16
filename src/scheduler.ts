@@ -24,3 +24,10 @@ runDigestJob();
 
 // Schedule to run at 7 AM and 7 PM
 // cron.schedule("0 7,19 * * *", runDigestJob);
+
+export default {
+  async scheduled(event: any, env: any, ctx: any): Promise<void> {
+    runDigestJob();
+  }
+};
+
