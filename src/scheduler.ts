@@ -4,7 +4,7 @@ import { fetchTrendingTopics } from "./scrapers/fetchTrends";
 import { generateSummary } from "./summarizer/generateSummary";
 import { sendDigestEmail } from "./email/sendDigestEmail";
 
-async function runDigestJob(): Promise<void> {
+export async function runDigestJob(): Promise<void> {
   console.log("[X Digest Bot] Running digest job...");
 
   let topicsWithArticleTitles = await fetchTrendingTopics();
@@ -24,10 +24,3 @@ runDigestJob();
 
 // Schedule to run at 7 AM and 7 PM
 // cron.schedule("0 7,19 * * *", runDigestJob);
-
-export default {
-  async scheduled(event: any, env: any, ctx: any): Promise<void> {
-    runDigestJob();
-  }
-};
-
